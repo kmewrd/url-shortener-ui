@@ -26,7 +26,12 @@ class UrlForm extends Component {
       long_url: this.state.urlToShorten,
       title: this.state.title
     }
-    // console.log(urlToPost)
+
+    postUrl(urlToPost)
+      .then(data => {
+        this.props.getUrls();
+        this.setState({ error: null });
+      })
   }
 
   clearInputs = () => {
