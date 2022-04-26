@@ -3779,7 +3779,7 @@
   "resolved" "https://registry.npmjs.org/cyclist/-/cyclist-1.0.1.tgz"
   "version" "1.0.1"
 
-"cypress@^6.6.0":
+"cypress@^6.9.1":
   "integrity" "sha512-/RVx6sOhsyTR9sd9v0BHI4tnDZAhsH9rNat7CIKCUEr5VPWxyfGH0EzK4IHhAqAH8vjFcD4U14tPiJXshoUrmQ=="
   "resolved" "https://registry.npmjs.org/cypress/-/cypress-6.9.1.tgz"
   "version" "6.9.1"
