@@ -36,4 +36,14 @@ describe('Homepage of URL Shortener site', () => {
       .invoke('attr', 'placeholder')
       .should('contain', 'URL to Shorten...')
   })
+
+  it('should update the input values as a user enters text', () => {
+    cy.get('input[name="title"]')
+      .type('Cute lil chi')
+      .should('have.value', 'Cute lil chi')
+
+    cy.get('input[name="urlToShorten"]')
+      .type('https://images.unsplash.com/photo-1494205577727-d32e58564756?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2940&q=80')
+      .should('have.value', 'https://images.unsplash.com/photo-1494205577727-d32e58564756?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2940&q=80')
+  })
 })
