@@ -1,6 +1,8 @@
 describe('Homepage of URL Shortener site', () => {
   beforeEach(() => {
-    cy.intercept('http://localhost:3001/api/v1/urls', { fixture: 'urls.json' }).as('allUrls')
+    cy.intercept('GET', 'http://localhost:3001/api/v1/urls', { fixture: 'urls.json' }).as('allUrls')
+
+    cy.intercept('POST', 'http://localhost:3001/api/v1/urls', { fixture: 'newUrl.json' }).as('successfulPost')
 
     cy.visit('http://localhost:3000/')
   })
@@ -48,8 +50,6 @@ describe('Homepage of URL Shortener site', () => {
   })
 
   it('should display the new URL on the page after successful form submission', () => {
-    cy.intercept('POST', 'http://localhost:3001/api/v1/urls', { fixture: 'newUrl.json' }).as('successfulPost')
-
     cy.get('input[name="title"]')
       .type('Cute lil chi')
       .get('input[name="urlToShorten"]')
