@@ -22,7 +22,7 @@ describe('Homepage of URL Shortener site', () => {
       .and('contain', 'https://images.unsplash.com/photo-1531898418865-480b7090470f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=934&q=80')
   })
 
-  it('should containa a form for users to submit a url', () => {
+  it('should contain a form for users to submit a url', () => {
     cy.get('form')
       .should('have.descendants', 'input[name="title"]')
       .and('have.descendants', 'input[name="urlToShorten"]')
