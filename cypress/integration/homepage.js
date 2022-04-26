@@ -120,4 +120,24 @@ describe('Error handling for homepage', () => {
       .get('form')
       .should('not.contain', 'Please fill out all fields!')
   })
+
+  it('should show an error message if unable to delete a url', () => {
+    cy.intercept('GET', 'http://localhost:3001/api/v1/urls', { fixture: 'urls.json' }).as('allUrls')
+
+    cy.intercept('POST', 'http://localhost:3001/api/v1/urls', { fixture: 'newUrl.json' }).as('successfulPost')
+
+    cy.intercept('DELETE', 'http://localhost:3001/api/v1/urls/2', { forceNetworkError: true }).as('deleteFailure')
+
+    cy.visit('http://localhost:3000/')
+      .get('input[name="title"]')
+      .type('Cute lil chi')
+      .get('input[name="urlToShorten"]')
+      .type('https://images.unsplash.com/photo-1494205577727-d32e58564756?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2940&q=80')
+      .get('form button')
+      .click()
+      .get('div[class="url"]:last button')
+      .click()
+      .get('main')
+      .should('contain', 'Unable to delete url. Please try again later.')
+  })
 })
