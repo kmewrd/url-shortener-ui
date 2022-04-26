@@ -8,14 +8,15 @@ export class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      urls: []
+      urls: [],
+      error: null
     }
   }
 
   componentDidMount() {
     getUrls()
-      .then(data => this.setState({ urls: data.urls }))
-      .catch(err => console.log(err));
+      .then(data => this.setState({ urls: data.urls, error: null }))
+      .catch(err => this.setState({ error: 'Unable to fetch urls. Please try again later.' }));
   }
 
   render() {
