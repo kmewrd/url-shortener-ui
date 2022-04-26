@@ -21,12 +21,16 @@ export class App extends Component {
       .catch(err => this.setState({ error: 'Unable to fetch urls. Please try again later.' }))
   }
 
+  addUrl = newUrl => {
+    this.setState({ urls: [...this.state.urls, newUrl] })
+  }
+
   render() {
     return (
       <main className="App">
         <header>
           <h1>URL Shortener</h1>
-          <UrlForm getUrls={this.getUrls} />
+          <UrlForm addUrl={this.addUrl} />
         </header>
 
         <UrlContainer urls={this.state.urls}/>
