@@ -7,7 +7,8 @@ class UrlForm extends Component {
     this.props = props;
     this.state = {
       title: '',
-      urlToShorten: ''
+      urlToShorten: '',
+      error: null
     };
   }
 
@@ -32,6 +33,7 @@ class UrlForm extends Component {
         this.props.getUrls();
         this.setState({ error: null });
       })
+      .catch(err => this.setState({ error: 'Please fill out all fields!' }))
   }
 
   clearInputs = () => {
