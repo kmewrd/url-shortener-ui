@@ -71,4 +71,18 @@ describe('Error handling for homepage', () => {
       .get('main')
       .should('contain', 'Unable to fetch urls. Please try again later.')
   })
+
+  it('should display an error message if user tries to submit incomplete fields', () => {
+    cy.intercept('GET', 'http://localhost:3001/api/v1/urls', { fixture: 'urls.json' }).as('allUrls')
+
+    cy.intercept('POST', 'http://localhost:3001/api/v1/urls', { forceNetworkError: true }).as('postFailure')
+
+    cy.visit('http://localhost:3000/')
+      .get('input[name="title"]')
+      .type('Cute lil chi')
+      .get('form button')
+      .click()
+      .get('form')
+      .should('contain', 'Please fill out all fields!')
+  })
 })
