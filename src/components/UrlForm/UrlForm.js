@@ -19,21 +19,24 @@ class UrlForm extends Component {
   handleSubmit = e => {
     e.preventDefault();
     this.sendUrl();
-    this.clearInputs();
   }
 
   sendUrl = () => {
-    const urlToPost = {
-      long_url: this.state.urlToShorten,
-      title: this.state.title
-    }
+    if (!this.state.title || !this.state.urlToShorten) {
+      this.setState({ error: 'Please fill out all fields!' })
+    } else {
+      const urlToPost = {
+        long_url: this.state.urlToShorten,
+        title: this.state.title
+      }
 
-    postUrl(urlToPost)
-      .then(data => {
-        this.props.addUrl(data);
-        this.setState({ error: null });
-      })
-      .catch(err => this.setState({ error: 'Please fill out all fields!' }))
+      postUrl(urlToPost)
+        .then(data => {
+          this.props.addUrl(data);
+          this.setState({ error: null });
+        })
+      this.clearInputs();
+    }
   }
 
   clearInputs = () => {
@@ -43,6 +46,7 @@ class UrlForm extends Component {
   render() {
     return (
       <form>
+        { this.state.error && <p>{this.state.error}</p> }
         <input
           type='text'
           placeholder='Title...'
