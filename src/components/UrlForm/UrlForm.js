@@ -17,7 +17,16 @@ class UrlForm extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
+    this.sendUrl();
     this.clearInputs();
+  }
+
+  sendUrl = () => {
+    const urlToPost = {
+      long_url: this.state.urlToShorten,
+      title: this.state.title
+    }
+    // console.log(urlToPost)
   }
 
   clearInputs = () => {
