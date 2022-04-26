@@ -75,7 +75,19 @@ describe('Error handling for homepage', () => {
   it('should display an error message if user tries to submit incomplete fields', () => {
     cy.intercept('GET', 'http://localhost:3001/api/v1/urls', { fixture: 'urls.json' }).as('allUrls')
 
-    cy.intercept('POST', 'http://localhost:3001/api/v1/urls', { forceNetworkError: true }).as('postFailure')
+    cy.visit('http://localhost:3000/')
+      .get('input[name="title"]')
+      .type('Cute lil chi')
+      .get('form button')
+      .click()
+      .get('form')
+      .should('contain', 'Please fill out all fields!')
+  })
+
+  it('should hide the error message after user completes form fields and clicks submit', () => {
+    cy.intercept('GET', 'http://localhost:3001/api/v1/urls', { fixture: 'urls.json' }).as('allUrls')
+
+    cy.intercept('POST', 'http://localhost:3001/api/v1/urls', { fixture: 'newUrl.json' }).as('successfulPost')
 
     cy.visit('http://localhost:3000/')
       .get('input[name="title"]')
@@ -84,5 +96,11 @@ describe('Error handling for homepage', () => {
       .click()
       .get('form')
       .should('contain', 'Please fill out all fields!')
+      .get('input[name="urlToShorten"]')
+      .type('https://images.unsplash.com/photo-1494205577727-d32e58564756?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2940&q=80')
+      .get('button')
+      .click()
+      .get('form')
+      .should('not.contain', 'Please fill out all fields!')
   })
 })
