@@ -4,6 +4,8 @@ describe('Homepage of URL Shortener site', () => {
 
     cy.intercept('POST', 'http://localhost:3001/api/v1/urls', { fixture: 'newUrl.json' }).as('successfulPost')
 
+    cy.intercept('DELETE', 'http://localhost:3001/api/v1/urls/2', { statusCode: 204 }).as('successfulDelete')
+
     cy.visit('http://localhost:3000/')
   })
 
@@ -54,12 +56,27 @@ describe('Homepage of URL Shortener site', () => {
       .type('Cute lil chi')
       .get('input[name="urlToShorten"]')
       .type('https://images.unsplash.com/photo-1494205577727-d32e58564756?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2940&q=80')
-      .get('button')
+      .get('form button')
       .click()
 
     cy.get('div[class="url"]:last')
       .should('contain', 'Cute lil chi')
       .and('contain', 'https://images.unsplash.com/photo-1494205577727-d32e58564756?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2940&q=80')
+  })
+
+  it('should remove a url from the page if the delete button is clicked', () => {
+    cy.get('input[name="title"]')
+      .type('Cute lil chi')
+      .get('input[name="urlToShorten"]')
+      .type('https://images.unsplash.com/photo-1494205577727-d32e58564756?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2940&q=80')
+      .get('form button')
+      .click()
+      .get('main')
+      .should('contain', 'Cute lil chi')
+      .get('div[class="url"]:last button')
+      .click()
+      .get('main')
+      .should('not.contain', 'Cute lil chi')
   })
 })
 
@@ -98,7 +115,7 @@ describe('Error handling for homepage', () => {
       .should('contain', 'Please fill out all fields!')
       .get('input[name="urlToShorten"]')
       .type('https://images.unsplash.com/photo-1494205577727-d32e58564756?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2940&q=80')
-      .get('button')
+      .get('form button')
       .click()
       .get('form')
       .should('not.contain', 'Please fill out all fields!')
