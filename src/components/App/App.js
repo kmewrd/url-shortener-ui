@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import { getUrls } from '../../apiCalls';
+import { fetchUrls } from '../../apiCalls';
 import UrlContainer from '../UrlContainer/UrlContainer';
 import UrlForm from '../UrlForm/UrlForm';
 
@@ -13,10 +13,12 @@ export class App extends Component {
     }
   }
 
-  componentDidMount() {
-    getUrls()
+  componentDidMount = () => this.getUrls();
+
+  getUrls = () => {
+    fetchUrls()
       .then(data => this.setState({ urls: data.urls, error: null }))
-      .catch(err => this.setState({ error: 'Unable to fetch urls. Please try again later.' }));
+      .catch(err => this.setState({ error: 'Unable to fetch urls. Please try again later.' }))
   }
 
   render() {
