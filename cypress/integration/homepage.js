@@ -20,4 +20,20 @@ describe('Homepage of URL Shortener site', () => {
       .and('contain', 'https://images.unsplash.com/photo-1531898418865-480b7090470f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=934&q=80')
   })
 
+  it('should containa a form for users to submit a url', () => {
+    cy.get('form')
+      .should('have.descendants', 'input[name="title"]')
+      .and('have.descendants', 'input[name="urlToShorten"]')
+      .and('have.descendants', 'button')
+  })
+
+  it('should have placeholder text in the inputs to indicate what they should contain', () => {
+    cy.get('input[name="title"]')
+      .invoke('attr', 'placeholder')
+      .should('contain', 'Title...')
+
+    cy.get('input[name="urlToShorten"]')
+      .invoke('attr', 'placeholder')
+      .should('contain', 'URL to Shorten...')
+  })
 })
