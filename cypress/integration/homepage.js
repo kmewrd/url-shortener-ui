@@ -62,3 +62,13 @@ describe('Homepage of URL Shortener site', () => {
       .and('contain', 'https://images.unsplash.com/photo-1494205577727-d32e58564756?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2940&q=80')
   })
 })
+
+describe('Error handling for homepage', () => {
+  it('should display an error message if network fails on first GET request', () => {
+    cy.intercept('GET', 'http://localhost:3001/api/v1/urls', { forceNetworkError: true }).as('getFailure')
+
+    cy.visit('http://localhost:3000/')
+      .get('main')
+      .should('contain', 'Unable to fetch urls. Please try again later.')
+  })
+})
