@@ -30,7 +30,7 @@ class UrlForm extends Component {
 
     postUrl(urlToPost)
       .then(data => {
-        this.props.getUrls();
+        this.props.addUrl(data);
         this.setState({ error: null });
       })
       .catch(err => this.setState({ error: 'Please fill out all fields!' }))
