@@ -8,6 +8,7 @@ const UrlContainer = props => {
         <h3>{url.title}</h3>
         <a href={url.short_url} target="blank">{url.short_url}</a>
         <p>{url.long_url}</p>
+        <button onClick={() => props.removeUrl(url.id)}>Delete</button>
       </div>
     )
   });
@@ -15,7 +16,7 @@ const UrlContainer = props => {
   return (
     <section>
       { !!urlEls.length && urlEls }
-      { !urlEls.length && props.error && <p>{props.error}</p> }
+      { props.error && <p>{props.error}</p> }
       { !urlEls.length && !props.error && <p>No urls yet! Find some to shorten!</p> }
     </section>
   )

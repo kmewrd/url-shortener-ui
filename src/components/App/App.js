@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import { fetchUrls } from '../../apiCalls';
+import { fetchUrls, deleteUrl } from '../../apiCalls';
 import UrlContainer from '../UrlContainer/UrlContainer';
 import UrlForm from '../UrlForm/UrlForm';
 
@@ -25,6 +25,15 @@ export class App extends Component {
     this.setState({ urls: [...this.state.urls, newUrl] })
   }
 
+  removeUrl = id => {
+    deleteUrl(id)
+      .then(data => {
+        let newUrls = this.state.urls.filter(url => url.id !== id);
+        this.setState({ urls: newUrls });
+      })
+      .catch(err => this.setState({ error: 'Unable to delete url. Please try again later.' }))
+  }
+
   render() {
     return (
       <main className="App">
@@ -33,7 +42,7 @@ export class App extends Component {
           <UrlForm addUrl={this.addUrl} />
         </header>
         
-        <UrlContainer urls={this.state.urls} error={this.state.error}/>
+        <UrlContainer urls={this.state.urls} error={this.state.error} removeUrl={this.removeUrl} />
       </main>
     );
   }
